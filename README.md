@@ -2,17 +2,17 @@ Moment-Generating Function
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][codecov-image]][codecov-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution moment-generating function (MGF).
+> [Exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution moment-generating function (MGF).
 
 The [moment-generating function](https://en.wikipedia.org/wiki/Moment-generating_function) for a [exponential](https://en.wikipedia.org/wiki/exponential_distribution) random variable is
 
 <div class="equation" align="center" data-raw-text="
-    M_X(t) := \mathbb{E}\!\left[e^{tX}\right]" data-equation="eq:mgf_function">
-	<img src="" alt="Moment-generating function (MGF) for a exponential distribution.">
+	M_X(t) := \mathbb{E}\!\left[e^{tX}\right] = \frac{\lambda}{\lambda-t}, \text{ for } t < \lambda" data-equation="eq:mgf_function">
+	<img src="https://cdn.rawgit.com/distributions-io/exponential-mgf/76c8d40c6bbfdc13c19b02c5a5b03ce760a633e8/docs/img/eqn.svg" alt="Moment-generating function (MGF) for a exponential distribution.">
 	<br>
 </div>
 
-where `lambda` is the rate parameter.
+where `lambda` is the rate parameter. For `t >= lambda`, the MGF is undefined and this module returns `NaN`.
 
 ## Installation
 
@@ -40,36 +40,36 @@ var matrix = require( 'dstructs-matrix' ),
 	t,
 	i;
 
-out = mgf( 1 );
-// returns
+out = mgf( 0.5 );
+// returns 2
 
 out = mgf( -1 );
-// returns 0
+// returns 0.5
 
-t = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
+t = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 out = mgf( t );
-// returns [...]
+// returns [ 1, 1.25, ~1.667, 2.5, 5, NaN ]
 
-t = new Int8Array( t );
+t = new Float32Array( t );
 out = mgf( t );
-// returns Float64Array( [...] )
+// returns Float64Array( [1,1.25,~1.667,2.5,5,NaN] )
 
 t = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
-	t[ i ] = i * 0.5;
+	t[ i ] = i * 0.2;
 }
 mat = matrix( t, [3,2], 'float32' );
 /*
-	[ 0  0.5
-	  1  1.5
-	  2  2.5 ]
+	[ 0    0.2
+	  0.4  0.6
+	  0.8  1  ]
 */
 
 out = mgf( mat );
 /*
-	[
-
-	   ]
+	[ 1       1.25
+	  ~1.667  2.5
+	  5       NaN ]
 */
 ```
 
@@ -88,9 +88,9 @@ A [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribu
 var t = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
 
 var out = mgf( t, {
-	'lambda': 6
+	'lambda': 4
 });
-// returns [...]
+// returns [ 1, ~1.143, ~1.333, 1.6, 2, ~2.667 ]
 ```
 
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
@@ -110,9 +110,10 @@ function getValue( d, i ) {
 }
 
 var out = mgf( data, {
-	'accessor': getValue
+	'accessor': getValue,
+	'lambda': 4
 });
-// returns [...]
+// returns [ 1, ~1.143, ~1.333, 1.6, 2, ~2.667 ]
 ```
 
 
@@ -130,16 +131,17 @@ var data = [
 
 var out = mgf( data, {
 	'path': 'x/1',
-	'sep': '/'
+	'sep': '/',
+	'lambda': 4
 });
 /*
 	[
-		{'x':[0,]},
-		{'x':[1,]},
-		{'x':[2,]},
-		{'x':[3,]},
-		{'x':[4,]},
-		{'x':[5,]}
+		{'x':[0,1]},
+		{'x':[1,~1.143]},
+		{'x':[2,~1.333]},
+		{'x':[3,1.6]},
+		{'x':[4,2]},
+		{'x':[5,~2.667]}
 	]
 */
 
@@ -155,15 +157,17 @@ var t, out;
 t = new Int8Array( [0,1,2,3,4] );
 
 out = mgf( t, {
-	'dtype': 'int32'
+	'dtype': 'int32',
+	'lambda': 5
 });
-// returns Int32Array( [...] )
+// returns Int32Array( [1,1,1,2,5] )
 
 // Works for plain arrays, as well...
-out = mgf( [0,0.5,1,1.5,2], {
-	'dtype': 'uint8'
+out = mgf( [0,1,2,3,4], {
+	'dtype': 'uint8',
+	'lambda': 5
 });
-// returns Uint8Array( [...] )
+// returns Uint8Array( [1,1,1,2,5] )
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
@@ -175,34 +179,34 @@ var bool,
 	t,
 	i;
 
-t = [ 0, 0.5, 1, 1.5, 2 ];
+t = [ 0, 0.2, 0.4, 0.6, 0.8, 1 ];
 
 out = mgf( t, {
 	'copy': false
 });
-// returns [...]
+// returns [ 1, 1.25, ~1.667, 2.5, 5, NaN ]
 
 bool = ( t === out );
 // returns true
 
 t = new Float32Array( 6 );
 for ( i = 0; i < 6; i++ ) {
-	t[ i ] = i * 0.5;
+	t[ i ] = i * 0.2;
 }
 mat = matrix( t, [3,2], 'float32' );
 /*
-	[ 0  0.5
-	  1  1.5
-	  2  2.5 ]
+	[ 0    0.2
+	  0.4  0.6
+	  0.8  1  ]
 */
 
 out = mgf( mat, {
 	'copy': false
 });
 /*
-	[
-
-	   ]
+	[ 1       1.25
+	  ~1.667  2.5
+	  5       NaN ]
 */
 
 bool = ( mat === out );
@@ -282,7 +286,7 @@ var data,
 // Plain arrays...
 data = new Array( 10 );
 for ( i = 0; i < data.length; i++ ) {
-	data[ i ] = i * 0.5;
+	data[ i ] = i * 0.1;
 }
 out = mgf( data );
 
@@ -313,7 +317,7 @@ out = mgf( data, {
 // Typed arrays...
 data = new Float32Array( 10 );
 for ( i = 0; i < data.length; i++ ) {
-	data[ i ] = i * 0.5;
+	data[ i ] = i * 0.1;
 }
 out = mgf( data );
 
