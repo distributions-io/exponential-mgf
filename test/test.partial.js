@@ -49,7 +49,7 @@ describe( 'partial mgf', function tests() {
 		for ( var i = 0; i < data.length; i++ ) {
 			actual = mgf( data[ i ] );
 			if ( isFiniteNumber( actual ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual, expected[ i ] , 1e-14 );
+				assert.closeTo( actual, expected[ i ] , 1e-12 );
 			}
 		}
 	});
@@ -57,6 +57,11 @@ describe( 'partial mgf', function tests() {
 	it( 'should return `NaN` if provided `NaN` as input', function test() {
 		var mgf = partial(  lambda );
 		assert.isTrue( isnan( mgf( NaN ) ) );
+	});
+
+	it( 'should return `NaN` if `t >= lambda`', function test() {
+		var mgf = partial(  lambda );
+		assert.isTrue( isnan( mgf( lambda + 0.1, lambda ) ) );
 	});
 
 });

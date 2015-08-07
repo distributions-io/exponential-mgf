@@ -42,13 +42,17 @@ describe( 'number mgf', function tests() {
 		for ( var i = 0; i < data.length; i++ ) {
 			actual =  mgf( data[ i ], lambda );
 			if ( isFiniteNumber( actual ) && isFiniteNumber( expected[ i ] ) ) {
-				assert.closeTo( actual, expected[ i ] , 1e-14 );
+				assert.closeTo( actual, expected[ i ] , 1e-12 );
 			}
 		}
 	});
 
 	it( 'should return `NaN` if provided `NaN` as input', function test() {
 		assert.isTrue( isnan( mgf( NaN, lambda ) ) );
+	});
+
+	it( 'should return `NaN` if `t >= lambda`', function test() {
+		assert.isTrue( isnan( mgf( lambda + 0.1, lambda ) ) );
 	});
 
 });

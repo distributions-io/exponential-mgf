@@ -1,8 +1,8 @@
 using Distributions
 using JSON
 
-lambda = 1
-d = Exponential( lambda )
+lambda = 11
+d = Exponential( 1/lambda )
 
 x = [ -5, -2.5, 0, 2.5, 5 ]
 

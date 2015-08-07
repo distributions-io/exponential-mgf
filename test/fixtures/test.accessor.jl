@@ -2,9 +2,9 @@ using Distributions
 using JSON
 
 lambda = 1
-d = Exponential( lambda )
+d = Exponential( 1/lambda )
 
-x = linspace( .5, -100, 100 )
+x = linspace( -10, 0.5, 100 )
 
 dmgf(t) = mgf(d, t )
 y = map( dmgf, x )

@@ -1,10 +1,10 @@
 using Distributions
 using JSON
 
-lambda = 1
-d = Exponential( lambda )
+lambda = 1.1
+d = Exponential( 1/lambda )
 
-x = linspace( 1, 0, 25 )
+x = linspace( -1, 1, 25 )
 
 dmgf(t) = mgf(d, t )
 y = map( dmgf, x )
