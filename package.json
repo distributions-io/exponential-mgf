@@ -1,7 +1,7 @@
 {
   "name": "distributions-exponential-mgf",
   "version": "0.0.0",
-  "description": "exponential distribution moment-generating function (MGF)",
+  "description": "Exponential distribution moment-generating function (MGF)",
   "author": {
     "name": "Philipp Burckhardt",
     "email": "pburckhardt@outlook.com"
@@ -20,7 +20,7 @@
   "main": "./lib",
   "repository": {
     "type": "git",
-    "url": "git://github.com/compute-io/exponential-mgf.git"
+    "url": "git://github.com/distributions-io/exponential-mgf.git"
   },
   "keywords": [
     "distributions.io",
@@ -30,10 +30,13 @@
     "stats",
     "mgf",
     "generating functions",
-    "moments"
+    "moments",
+    "continuous",
+    "life time",
+    "memoryless"
   ],
   "bugs": {
-    "url": "https://github.com/compute-io/exponential-mgf/issues"
+    "url": "https://github.com/distributions-io/exponential-mgf/issues"
   },
   "dependencies": {
     "compute-array-constructors": "^1.0.0",

@@ -4,15 +4,15 @@ Moment-Generating Function
 
 > [Exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution moment-generating function (MGF).
 
-The [moment-generating function](https://en.wikipedia.org/wiki/Moment-generating_function) for a [exponential](https://en.wikipedia.org/wiki/exponential_distribution) random variable is
+The [moment-generating function](https://en.wikipedia.org/wiki/Moment-generating_function) for an [exponential](https://en.wikipedia.org/wiki/exponential_distribution) random variable is
 
 <div class="equation" align="center" data-raw-text="
 	M_X(t) := \mathbb{E}\!\left[e^{tX}\right] = \frac{\lambda}{\lambda-t}, \text{ for } t < \lambda" data-equation="eq:mgf_function">
-	<img src="https://cdn.rawgit.com/distributions-io/exponential-mgf/76c8d40c6bbfdc13c19b02c5a5b03ce760a633e8/docs/img/eqn.svg" alt="Moment-generating function (MGF) for a exponential distribution.">
+	<img src="https://cdn.rawgit.com/distributions-io/exponential-mgf/76c8d40c6bbfdc13c19b02c5a5b03ce760a633e8/docs/img/eqn.svg" alt="Moment-generating function (MGF) for an exponential distribution.">
 	<br>
 </div>
 
-where `lambda` is the rate parameter. For `t >= lambda`, the MGF is undefined and this module returns `NaN`.
+where `lambda > 0` is the rate parameter. For `t >= lambda`, the MGF is undefined and this module returns `NaN`.
 
 ## Installation
 
@@ -82,7 +82,7 @@ The function accepts the following `options`:
 *	__path__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path.
 *	__sep__: [deepget](https://github.com/kgryte/utils-deep-get)/[deepset](https://github.com/kgryte/utils-deep-set) key path separator. Default: `'.'`.
 
-A [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution is a function of 1 parameter(s): `lambda`(rate parameter). By default, `lambda` is equal to `1`. To adjust either parameter, set the corresponding option.
+An [exponential](https://en.wikipedia.org/wiki/exponential_distribution) distribution is a function of one parameter: `lambda > 0`(rate parameter). By default, `lambda` is equal to `1`. To adjust either parameter, set the corresponding option.
 
 ``` javascript
 var t = [ 0, 0.5, 1, 1.5, 2, 2.5 ];
